@@ -2,8 +2,20 @@
 
 #include "ShipPlayerController.h"
 
-AShip* AShipPlayerController::GetControlledShip() const {
+void AShipPlayerController::BeginPlay() {
+	Super::BeginPlay();
+	auto ControlledShip = GetControlledShip();
+	if (!ControlledShip) {
+		UE_LOG(LogTemp, Warning, TEXT("Player Controller not possessing a ship."))
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Player Controller possessing %s."), *(ControlledShip->GetName()))
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Player Controller Begin Play."))
+}
 
+AShip* AShipPlayerController::GetControlledShip() const {
+	
 	return Cast<AShip>(GetPawn());
 }
 

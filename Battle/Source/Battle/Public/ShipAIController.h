@@ -3,21 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "AIController.h"
 #include "Ship.h"
-#include "ShipPlayerController.generated.h"
+#include "ShipAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BATTLE_API AShipPlayerController : public APlayerController
+class BATTLE_API AShipAIController : public AAIController
 {
 	GENERATED_BODY()
-
-public:
-	AShip * GetControlledShip() const;
 	
+public:
+	AShip * GetAIControlledShip() const;
+
 	void virtual BeginPlay() override;
 	
+	AShip* GetPlayerControlledShip() const;
 };
