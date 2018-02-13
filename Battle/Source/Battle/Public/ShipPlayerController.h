@@ -19,5 +19,9 @@ public:
 	AShip * GetControlledShip() const;
 	
 	void virtual BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 	
+	//move the barral so that the shot would hit where it intersects the world
+	void AimAtCrossHair();
 };

@@ -20,5 +20,9 @@ public:
 
 	void virtual BeginPlay() override;
 	
+	
+	
 	AShip* GetPlayerControlledShip() const;
+
+	
 };

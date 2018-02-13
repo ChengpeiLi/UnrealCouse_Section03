@@ -14,6 +14,20 @@ void AShipPlayerController::BeginPlay() {
 	UE_LOG(LogTemp, Warning, TEXT("Player Controller Begin Play."))
 }
 
+
+void AShipPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	void AimAtCrossHair();
+}
+
+void AShipPlayerController::AimAtCrossHair()
+{
+	if (!GetControlledShip()) { return; }
+}
+
+
 AShip* AShipPlayerController::GetControlledShip() const {
 	
 	return Cast<AShip>(GetPawn());
