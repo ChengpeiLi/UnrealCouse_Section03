@@ -20,7 +20,7 @@ public:
 
 	void virtual BeginPlay() override;
 	
-	
+	void virtual Tick(float DeltaTime) override;
 	
 	AShip* GetPlayerControlledShip() const;
 

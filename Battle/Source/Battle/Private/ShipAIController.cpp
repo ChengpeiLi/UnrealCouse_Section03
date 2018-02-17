@@ -17,6 +17,19 @@ void AShipAIController::BeginPlay()
 	}
 }
 
+void AShipAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	auto AIShip = GetAIControlledShip();
+	if (!AIShip) {
+		return;
+	}
+	else {
+		AIShip->AimAt(GetPlayerControlledShip()->GetActorLocation());
+	}
+
+	
+}
 
 
 

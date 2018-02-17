@@ -32,3 +32,8 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AShip::AimAt(FVector HitLocation)
+{
+	auto ShipName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *ShipName, *HitLocation.ToString())
+}

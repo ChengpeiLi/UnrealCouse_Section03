@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ShipPlayerController.h"
+#include "Engine/World.h"
 
 void AShipPlayerController::BeginPlay() {
 	Super::BeginPlay();
@@ -27,7 +28,7 @@ void AShipPlayerController::AimAtCrossHair()
 	if (!GetControlledShip()) { return; }
 	FVector HitLocation; //Out Parameter
 	if (GetSightRayHitLocation(HitLocation)) {
-		//UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *HitLocation.ToString())
+		GetControlledShip()->AimAt(HitLocation);
 	}
 }
 
@@ -42,7 +43,8 @@ bool AShipPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	FVector LookDirection;
 	if (GetPlayerLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *LookDirection.ToString())
+		//UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *LookDirection.ToString())
+		GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 
 	//linetrace along that look direction, and see what we hit
@@ -53,10 +55,29 @@ bool AShipPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 bool AShipPlayerController::GetPlayerLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const
 {
 	FVector WorldLocation;
-	DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection);
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection);
 	//UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *LookDirection.ToString())
 
-	return true;
+	
+}
+
+bool AShipPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
+{
+	FHitResult HitResult;
+	
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	if (GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		StartLocation,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility))
+	{
+		OutHitLocation = HitResult.Location;
+		return true;
+	}
+	OutHitLocation = FVector(0);
+	return false;
 }
 
 
