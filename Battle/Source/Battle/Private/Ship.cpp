@@ -9,6 +9,7 @@ AShip::AShip()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	ShipAimingComponent = CreateDefaultSubobject<UShipAimingComponent>(FName("Aiming Component"));
 }
 
 // Called when the game starts or when spawned
@@ -16,6 +17,11 @@ void AShip::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AShip::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	ShipAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
 // Called every frame
@@ -34,6 +40,6 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AShip::AimAt(FVector HitLocation)
 {
-	auto ShipName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *ShipName, *HitLocation.ToString())
+	ShipAimingComponent->AimAt(HitLocation);
+
 }

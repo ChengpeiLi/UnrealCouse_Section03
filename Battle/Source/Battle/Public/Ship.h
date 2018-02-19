@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ShipAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Ship.generated.h"
@@ -18,6 +19,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UShipAimingComponent* ShipAimingComponent = nullptr;
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 private:	
 	// Called every frame
