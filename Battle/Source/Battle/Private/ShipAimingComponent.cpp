@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ShipAimingComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
 
 
 // Sets default values for this component's properties
@@ -32,11 +34,33 @@ void UShipAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UShipAimingComponent::AimAt(FVector HitLocation)
+void UShipAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	auto ShipName = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *ShipName, *HitLocation.ToString(), *BarrelLocation.ToString())
+	if (!Barrel) { return; }
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	if (UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			OutLaunchVelocity,
+			StartLocation,
+			HitLocation,
+			LaunchSpeed,
+			false,
+			0.0,
+			0.0,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+		)
+
+		) 
+	{
+		auto AimDiection = OutLaunchVelocity.GetSafeNormal();
+		auto ShipName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s"), *ShipName, *AimDiection.ToString())
+
+	}
+	else { return; }
 }
 
 void UShipAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)

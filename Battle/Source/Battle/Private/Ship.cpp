@@ -40,6 +40,6 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AShip::AimAt(FVector HitLocation)
 {
-	ShipAimingComponent->AimAt(HitLocation);
+	ShipAimingComponent->AimAt(HitLocation, LaunchSpeed);
 
 }
