@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ShipAimingComponent.generated.h"
 
+class UShipBarrel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLE_API UShipAimingComponent : public UActorComponent
@@ -18,16 +19,19 @@ public:
 
 protected:
 	// Called when the game starts
-	virtual void BeginPlay() override;
+
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	//TODO add SetTurretReference
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UShipBarrel* BarrelToSet);
 private:
-	UStaticMeshComponent * Barrel = nullptr;
+	UShipBarrel * Barrel = nullptr;
+
+	void MoveBarrelTowards(FVector AimDirection);
 	
+	float DegreesPerSecond = 5.0;
 };

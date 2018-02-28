@@ -7,6 +7,8 @@
 #include "GameFramework/Pawn.h"
 #include "Ship.generated.h"
 
+class UShipBarrel;
+
 UCLASS()
 class BATTLE_API AShip : public APawn
 {
@@ -21,7 +23,7 @@ protected:
 	virtual void BeginPlay() override;
 	UShipAimingComponent* ShipAimingComponent = nullptr;
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UShipBarrel* BarrelToSet);
 
 private:	
 	// Called every frame

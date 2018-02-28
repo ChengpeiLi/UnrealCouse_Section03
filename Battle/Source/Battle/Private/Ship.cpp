@@ -19,7 +19,7 @@ void AShip::BeginPlay()
 	
 }
 
-void AShip::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void AShip::SetBarrelReference(UShipBarrel * BarrelToSet)
 {
 	ShipAimingComponent->SetBarrelReference(BarrelToSet);
 }
